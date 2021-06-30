@@ -8,13 +8,14 @@ use PHPUnit\Framework\TestCase;
 final class AvaTaxClientTest extends TestCase
 {
     /**
-     * @expectedException \Exception
      */
     public function testConstructorThrowsExceptionForMissingRequirements()
     {
+        $this->expectException(Exception::class);
+
         new Avalara\AvaTaxClient('', '', '', '');
     }
-    
+
     public function testBasicWorkflow()
     {
         // Create a new client
@@ -43,7 +44,7 @@ final class AvaTaxClientTest extends TestCase
         $model->name = "Bob's Greatest Popcorn";
         $model->title = "Owner/CEO";
         $testCompany = $client->companyInitialize($model);
-        
+
         // Assert that company setup succeeded
         $this->assertNotNull($testCompany, "Test company should be created");
         $this->assertTrue(count($testCompany->nexus) > 0, "Test company should have nexus");
@@ -81,7 +82,7 @@ final class AvaTaxClientTest extends TestCase
         // assertions with comment
         $this->assertInstanceOf(Avalara\AvaTaxClient::class, $myClient, "getClient returns an AvaTaxClient object when called by an instance from an extended class");
         $this->assertTrue($myClient->echoAddedConfig() == "my additional client info", "Extended method can hold additional client configuration/info");
-        
+
         // add credentials
         $client->withSecurity(getenv('SANDBOX_USERNAME'), getenv('SANDBOX_PASSWORD'));
 

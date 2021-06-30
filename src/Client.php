@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
  */
 class AvaTaxClientBase
 {
-  /**
+    /**
      * @var Client     The Guzzle client to use to connect to AvaTax
      */
     protected $client;
@@ -54,7 +54,7 @@ class AvaTaxClientBase
      *
      * @throws \Exception
      */
-    public function __construct($appName, $appVersion, $machineName="", $environment, $guzzleParams = [])
+    public function __construct($appName, $appVersion, $machineName="", $environment=null, $guzzleParams = [])
     {
         // app name and app version are mandatory fields.
         if ($appName == "" || $appName == null || $appVersion == "" || $appVersion == null) {
@@ -179,7 +179,7 @@ class AvaTaxClientBase
         }
         // timeout for 1200s (20 min)
         $guzzleParams['timeout'] = 1200;
-        
+
         // Contact the server
         try {
             $response = $this->client->request($verb, $apiUrl, $guzzleParams);
@@ -188,12 +188,12 @@ class AvaTaxClientBase
 
             $JsonBody = json_decode($body);
             if (is_null($JsonBody)) {
-			  if (json_last_error() === JSON_ERROR_SYNTAX) {
-				  throw new \Exception('The response is in unexpected format. The response is: ' . $JsonBody);
-			  }
-              return $body;
+                if (json_last_error() === JSON_ERROR_SYNTAX) {
+                    throw new \Exception('The response is in unexpected format. The response is: ' . $JsonBody);
+                }
+                return $body;
             } else {
-              return $JsonBody;
+                return $JsonBody;
             }
 
         } catch (\Exception $e) {
