@@ -32,19 +32,21 @@ class TransactionBuilder
     /**
      * TransactionBuilder helps you construct a new transaction using a literate interface
      *
-     * @param AvaTaxClient  $client        The AvaTaxClient object to use to create this transaction
-     * @param string        $companyCode   The code of the company for this transaction
-     * @param string        $type          The type of transaction to create (See DocumentType::* for a list of allowable values)
-     * @param string        $customerCode  The customer code for this transaction
-     * @param string|null   $dateTime      The datetime of the transaction, defaults to current time when null (Format: Y-m-d)
+     * @param AvaTaxClient  $client          The AvaTaxClient object to use to create this transaction
+     * @param string        $companyCode     The code of the company for this transaction
+     * @param string        $type            The type of transaction to create (See DocumentType::* for a list of allowable values)
+     * @param string        $customerCode    The customer code for this transaction
+     * @param string        $purchaseOrderNo The purchase order number for this transaction
+     * @param string|null   $dateTime        The datetime of the transaction, defaults to current time when null (Format: Y-m-d)
      */
-    public function __construct($client, $companyCode, $type, $customerCode, $dateTime = null)
+    public function __construct($client, $companyCode, $type, $customerCode, $purchaseOrderNo = null, $dateTime = null)
     {
         $this->_client = $client;
         $this->_line_number = 1;
         $this->_model = [
             'companyCode' => $companyCode,
             'customerCode' => $customerCode,
+            'purchaseOrderNo' => $purchaseOrderNo !== null ? $purchaseOrderNo : '',
             'date' => $dateTime !== null ? $dateTime : date('Y-m-d'),
             'type' => $type,
             'lines' => [],
